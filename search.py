@@ -1,39 +1,56 @@
-import random
-
-s = int(input())
+#Импорт random
+import random 
+#Ввод искомого числа
+s = int(input()) 
+#Переменные для создания списков
 a = []
-d = 2
-m = 0
-
-a = random.sample(range(10),10)
-print(a)
-l = len(a)
+b = []
+m = 0 
+#Элементы для поиска
+t = 0
+l = 0
+d = 0
+#Переменные для подсчёта количества сравнений
+k1 = 0
+k2 = 0
+#Создание списка с случайными неповторяющимися элементами с помощью sample
+a = random.sample(range(1_000_000),100)
+#Сортика алгортмом выбора
+for i in range(0,len(a)-1):
+    m = a[0]
+    for i in range(0, len(a)):
+        if a[i] < m:
+            m = a[i]
+    b.append(m)
+    a.remove(m)
+l = len(b)
+#Линейный поиск
 for i in range(l):
-    if a[i] == s:
-        print(i+1)
+    if b[i] == s:
+        print('\tЛинейный поиск\nИндекс найденного элемента:',i+1)
+        print('Количество сравнений:',i+1)
         break
-if  i+1 == l:
-    if a[i] != s:
-        print('Элемент не найден')
-
+#Бинарный поиск
+t =int(l//2) #Деление пополам
+d = 0
 while True:
-    m = l//2+d
-    if a[m] == s:
-        print(m+1)
+    if b[t] == s: #Вывод в случае нахождения элемента в списке
+        print('\n\tБинарный поиск\nИндекс найденного элемента:',t+1)
+        print('Количество сравнений:',k2)
         break
-    if a[m] > s:
-        d = l//4
-    if a[m] < s:
-        print(m+1)
-        d = -1//4
-    print(m)
-
-"""""
-for m in range(l):
-    if a[m] == s:
-        print(m+1)
-        break
-if  m+1 == l:
-    if a[m] != s:
+    #Изменение верхней(l) и нижней границы(d)
+    if b[t] < s:
+        d = t
+        t = (l+t)//2
+        k2+=1
+    if b[t] > s:
+        l = t
+        t = (d+t)//2
+        k2+=1
+    #Вывод того что элемент не найден
+    if t == d:
         print('Элемент не найден')
-"""""
+        break
+    if t == l:
+        print('Элемент не найден')
+        break
